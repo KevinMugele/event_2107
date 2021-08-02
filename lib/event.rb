@@ -15,6 +15,15 @@ class Event
     @food_trucks.map do |truck|
       truck.name
     end
-  end 
+  end
 
+  def food_trucks_that_sell(item)
+    trucks = []
+    @food_trucks.each do |truck|
+      truck.inventory.each do |items, amount|
+        trucks << truck if items == item
+      end
+    end
+    trucks
+  end
 end
