@@ -1,6 +1,6 @@
 class Event
-
-  attr_reader :name, :food_trucks
+  attr_reader :name,
+              :food_trucks
 
   def initialize(name)
     @name = name
@@ -61,13 +61,11 @@ class Event
   end
 
   def date
-    date = Date.today.to_s
-    date
+    Date.today.to_s
   end
 
   def sell(item, amount)
     amount = amount
-
     if total_inventory[item].nil?
       false
     elsif total_inventory[item][:quantity] > amount
@@ -87,6 +85,4 @@ class Event
       false
     end
   end
-
-
 end

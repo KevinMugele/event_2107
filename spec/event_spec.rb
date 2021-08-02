@@ -189,7 +189,5 @@ RSpec.describe Event do
     expect(event.sell(item1, 200)).to be false
     expect(event.sell(item5, 1)).to be false
     expect(event.sell(item4, 5)).to be true
-    # expect(food_truck2.check_stock(item4)).to eq(45)
   end
-
 end
