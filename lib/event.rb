@@ -67,7 +67,6 @@ class Event
   end
 
   def sell(item, amount)
-    amount = amount
     if total_inventory[item].nil?
       false
     elsif total_inventory[item][:quantity] > amount
