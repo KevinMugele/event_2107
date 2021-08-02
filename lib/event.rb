@@ -59,7 +59,7 @@ class Event
     total_inventory.each do |item, values|
       list << item.name
     end
-    list.sort
+    list.uniq.sort
   end
 
   def date
