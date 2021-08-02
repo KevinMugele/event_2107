@@ -41,4 +41,18 @@ class Event
     end
     total_inventory
   end
+
+  def overstocked_items
+    overstocked = []
+    total_inventory.each  do |item, values|
+      if total_inventory[item][:quantity] >= 50 && total_inventory[item][:food_trucks].length >=2
+        overstocked << item
+      end
+    end
+    overstocked
+  end
+
+  # You `Event` will also be able to identify `overstocked_items`.
+  # An item is overstocked if it is sold by more than 1 food truck
+  #  AND the total quantity is greater than 50.
 end
