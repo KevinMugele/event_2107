@@ -52,7 +52,41 @@ class Event
     overstocked
   end
 
-  # You `Event` will also be able to identify `overstocked_items`.
-  # An item is overstocked if it is sold by more than 1 food truck
-  #  AND the total quantity is greater than 50.
+  def sorted_item_list
+    list = []
+    total_inventory.each do |item, values|
+      list << item.name
+    end
+    list.sort
+  end
+
+  def date
+    date = Date.today.to_s
+    date
+  end
+
+  def sell(item, amount)
+    amount = amount
+
+    if total_inventory[item].nil?
+      false
+    elsif total_inventory[item][:quantity] > amount
+      food_trucks_that_sell(item).each do |truck|
+        until "sold"
+          if truck.inventory[item] > amount || truck.inventory[item] == amount
+            truck.inventory[item] - amount
+            return "sold"
+          else
+            truck.inventory[item] - amount
+            truck.inventory[item]
+          end
+        end
+      end
+      true
+    else
+      false
+    end
+  end
+
+
 end
