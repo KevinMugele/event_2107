@@ -1,5 +1,6 @@
-class FoodTruck
+# frozen_string_literal: true
 
+class FoodTruck
   attr_reader :name, :inventory
 
   def initialize(name)
@@ -12,11 +13,7 @@ class FoodTruck
   end
 
   def stock(item, amount)
-    if @inventory[item].nil?
-      @inventory[item] = amount
-    else
-      @inventory[item] += amount
-    end
+    @inventory[item] += amount
   end
 
   def potential_revenue

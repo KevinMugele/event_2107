@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'date'
 
 class Event
@@ -14,19 +16,13 @@ class Event
   end
 
   def food_truck_names
-    @food_trucks.map do |truck|
-      truck.name
-    end
+    @food_trucks.map(&:name)
   end
 
   def food_trucks_that_sell(item)
-    trucks = []
-    @food_trucks.each do |truck|
-      truck.inventory.each do |items, amount|
-        trucks << truck if items == item
-      end
+    @food_trucks.find_all do |truck|
+      truck.check_stock(item).positive?
     end
-    trucks
   end
 
   def total_inventory
@@ -34,7 +30,7 @@ class Event
     @food_trucks.each do |food_truck|
       food_truck.inventory.each do |item, amount|
         if total_inventory[item].nil?
-          total_inventory[item] = {quantity: amount, food_trucks: [food_truck]}
+          total_inventory[item] = { quantity: amount, food_trucks: [food_truck] }
         else
           total_inventory[item][:quantity] += amount
           total_inventory[item][:food_trucks] << food_truck
@@ -46,17 +42,15 @@ class Event
 
   def overstocked_items
     overstocked = []
-    total_inventory.each  do |item, values|
-      if total_inventory[item][:quantity] >= 50 && total_inventory[item][:food_trucks].length >=2
-        overstocked << item
-      end
+    total_inventory.each do |item, _values|
+      overstocked << item if total_inventory[item][:quantity] >= 50 && total_inventory[item][:food_trucks].length >= 2
     end
     overstocked
   end
 
   def sorted_item_list
     list = []
-    total_inventory.each do |item, values|
+    total_inventory.each do |item, _values|
       list << item.name
     end
     list.uniq.sort
@@ -71,12 +65,11 @@ class Event
       false
     elsif total_inventory[item][:quantity] > amount
       food_trucks_that_sell(item).each do |truck|
-        until "sold"
+        until 'sold'
+          truck.inventory[item] - amount
           if truck.inventory[item] > amount || truck.inventory[item] == amount
-            truck.inventory[item] - amount
-            return "sold"
+            return 'sold'
           else
-            truck.inventory[item] - amount
             truck.inventory[item]
           end
         end

@@ -1,9 +1,10 @@
-class Item
+# frozen_string_literal: true
 
+class Item
   attr_reader :name, :price
 
   def initialize(attributes)
     @name = attributes[:name]
-    @price = attributes[:price].delete("$").to_f
+    @price = attributes[:price].delete('$').to_f
   end
 end
